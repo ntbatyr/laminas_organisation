@@ -35,7 +35,7 @@
                         <td class="align-middle"><?= $employee->birth_place; ?></td>
                         <td class="align-middle">
                             <div class="d-flex justify-content-start">
-                                <a class="btn btn-warning btn-sm" href="/departments/form/<?=$employee->id; ?>">
+                                <a class="btn btn-warning btn-sm" href="/employees/form/<?=$employee->id; ?>">
                                     <?= $this->translate('edit'); ?>
                                 </a>
                                 <form action="<?=$this->url('employees/remove')?>" method="post">

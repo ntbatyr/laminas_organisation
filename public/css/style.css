@@ -18,3 +18,7 @@
 #day {
     margin-left: 3px;
 }
+
+.bg-light-grey {
+    background-color: #d1d1d1 !important;
+}

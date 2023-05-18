@@ -1,22 +1,24 @@
 <?php
-
+declare(strict_types=1);
 namespace Application\Listener;
 
+use Application\Service\LocaleService;
 use Interop\Container\Containerinterface;
+use Laminas\Session\Container as SessionContainer;
+use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\Mvc\MvcEvent;
-use Locale;
 
-class LocaleListener extends \Laminas\EventManager\AbstractListenerAggregate
+class LocaleListener extends AbstractListenerAggregate
 {
-    private const REGEX_LOCALE = '#^(?P<locale>[a-z]{2,3}([-_][a-zA-Z]{2}|))#';
-    private const DEFAULT_LOCALE = 'ru_RU';
 
     private Containerinterface $container;
+    private SessionContainer $sessionContainer;
 
-    public function __construct(Containerinterface $container)
+    public function __construct(Containerinterface $container, $sessionContainer)
     {
         $this->container = $container;
+        $this->sessionContainer = $sessionContainer;
     }
 
     /**
@@ -35,24 +37,11 @@ class LocaleListener extends \Laminas\EventManager\AbstractListenerAggregate
 
     public function setLocale(MvcEvent $event)
     {
-        $routeMatch = $event->getRouteMatch();
+        $locale = null;
 
-        if (!$routeMatch) {
-            $this->setDefaultLocale();
-            return;
-        }
+        if ($this->sessionContainer->offsetExists(LocaleService::LOCALE_STORAGE_KEY))
+            $locale = $this->sessionContainer->offsetGet(LocaleService::LOCALE_STORAGE_KEY);
 
-        $locale = $routeMatch->getParam('locale');
-        if (!$locale || !preg_match(self::REGEX_LOCALE, $locale, $matches)) {
-            $this->setDefaultLocale();
-            return;
-        }
-
-        Locale::setDefault(Locale::canonicalize($matches['locale']));
-    }
-
-    private function setDefaultLocale() : void
-    {
-        Locale::setDefault(self::DEFAULT_LOCALE);
+        LocaleService::setLocale($locale);
     }
 }

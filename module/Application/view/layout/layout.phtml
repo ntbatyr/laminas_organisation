@@ -29,8 +29,8 @@
     </head>
     <body>
         <div class="container">
-            <?= $this->navigation()->menu(); ?>
-            <?= $this->partial('partial/flash.phtml', $this->flashMessenger()) ?>
+            <?= $this->partial('partial/navbar.phtml', $this); ?>
+            <?= $this->partial('partial/flash.phtml', $this->flashMessenger()); ?>
             <?= $this->content ?>
         </div>
         <?= $this->inlineScript()

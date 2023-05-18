@@ -2,18 +2,14 @@
 
 namespace Application\Listener;
 
-use Laminas\Di\CodeGenerator\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use Laminas\Session\Container;
 use Psr\Container\ContainerInterface;
 
 class LocaleListenerFactory implements FactoryInterface
 {
-    public function __invoke(\Interop\Container\Containerinterface $container, $name, array $options = null): LocaleListener
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): LocaleListener
     {
-        return $this->create($container, $options);
-    }
-
-    public function create(ContainerInterface $container, array $options): LocaleListener
-    {
-        return new LocaleListener($container);
+        return new LocaleListener($container, new Container());
     }
 }

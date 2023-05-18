@@ -1,9 +1,15 @@
 <?php
 
 return [
-    'department_name' => 'Department name',
-    'alpha_numeric_characters_only' => 'Must consist of alphanumeric characters only',
-    'department_name_placeholder' => 'Enter department name',
-    'save_department' => 'Save department',
-    'department_form' => 'Edit or create department form'
+    'add' => 'Add',
+    'save' => 'Save',
+    'close' => 'Close',
+    'delete' => 'Delete',
+    'not_saved' => 'Can not save',
+    'successfully_saved' => 'Successfully saved',
+    'successfully_deleted' => 'Successfully deleted',
+    'edit' => 'Edit',
+    'id' => 'ID',
+    'name' => 'Name',
+    'organisation' => 'Organisation'
 ];

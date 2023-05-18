@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'login' => 'login',
-    'password' => 'password',
-    'sign_in' => 'sign in',
-    'Войти' => 'Sign in',
+    'login' => 'Login',
+    'password' => 'Password',
+    'sign_in' => 'Sign in',
+    'submit_login' => 'Sign in',
 ];

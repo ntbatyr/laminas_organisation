@@ -1,0 +1,49 @@
+<?php
+
+use Application\Service\LocaleService;
+?>
+
+<div class="row justify-content-center align-items-center mb-3">
+    <div class="col-12 col-md-6">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light-grey">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">
+                    <?= $this->translate('organisation'); ?>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="<?= $this->url('departments'); ?>">
+                                <?= $this->translate('departments'); ?>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="<?= $this->url('employees'); ?>">
+                                <?= $this->translate('employees'); ?>
+                            </a>
+                        </li>
+                    </ul>
+                    <form class="d-flex" action="<?= $this->url('locale'); ?>" method="post" id="localeSetForm">
+                        <input type="hidden" name="url_back" value="">
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" name="locale" id="locale_ru"
+                                   value="<?= LocaleService::RU_RU_LOCALE; ?>"
+                                   autocomplete="off" <?= LocaleService::getLocale() === LocaleService::RU_RU_LOCALE ? 'checked' : '' ?>>
+                            <label class="btn btn-outline-primary" for="locale_ru">RU</label>
+
+                            <input type="radio" class="btn-check" name="locale" id="locale_en"
+                                   value="<?= LocaleService::EN_US_LOCALE; ?>"
+                                   autocomplete="off" <?= LocaleService::getLocale() === LocaleService::EN_US_LOCALE ? 'checked' : '' ?>>
+                            <label class="btn btn-outline-primary" for="locale_en">EN</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>

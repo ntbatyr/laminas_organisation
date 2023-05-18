@@ -8,9 +8,21 @@ use Application\Listener\LocaleListener;
 use Application\Listener\LocaleListenerFactory;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
-use Laminas\ServiceManager\Factory\InvokableFactory;
+use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;
+use Laminas\Session\Container;
+use Laminas\Session\Storage\SessionArrayStorage;
 
 return [
+    'service_manager' => [
+        'factories' => [
+            LocaleListener::class => LocaleListenerFactory::class
+        ]
+    ],
+
+    'listeners' => [
+        LocaleListener::class
+    ],
+
     'router' => [
         'routes' => [
             'home' => [
@@ -20,6 +32,16 @@ return [
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
                         'action'     => 'index',
+                    ],
+                ],
+            ],
+            'locale' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/locale',
+                    'defaults' => [
+                        'controller' => Controller\IndexController::class,
+                        'action'     => 'locale',
                     ],
                 ],
             ],
@@ -37,8 +59,7 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            Controller\IndexController::class => InvokableFactory::class,
-            LocaleListener::class => LocaleListenerFactory::class
+            Controller\IndexController::class => ReflectionBasedAbstractFactory::class,
         ],
     ],
     'view_manager' => [
@@ -59,7 +80,7 @@ return [
     ],
 
     'translator' => [
-        'locale' => 'ru_RU',
+        // 'locale' => 'ru_RU',
         'translation_file_patterns' => [
             [
                 'type'     => 'phparray',
@@ -69,7 +90,15 @@ return [
         ],
     ],
 
-    'event_manager' => [
+    'session_containers' => [
+        Container::class
+    ],
 
-    ]
+    'session_storage' => [
+        'type' => SessionArrayStorage::class
+    ],
+
+    'session_config' => [
+        'gc_maxlifetime' => 7200
+    ],
 ];

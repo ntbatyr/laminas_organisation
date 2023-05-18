@@ -10,5 +10,6 @@ return [
     'successfully_deleted' => 'Удалено успешно',
     'edit' => 'Изменить',
     'id' => 'ID',
-    'name' => 'Название'
+    'name' => 'Название',
+    'organisation' => 'Организация'
 ];

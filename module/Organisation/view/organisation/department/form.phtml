@@ -54,7 +54,7 @@ $appointForm = $this->appointForm;
                 <?= $this->formElementErrors($form->get('csrf')); ?>
             </div>
             <div class="d-flex justify-content-start align-items-center">
-                <?= $this->formSubmit($form->get('save_department')); ?>
+                <?= $this->formSubmit($form->get('save')); ?>
                 <a class="btn btn-secondary ms-3" href="<?= $this->url('departments')?>"><?=$this->translate('to_departments_list')?></a>
             </div>
         </div>

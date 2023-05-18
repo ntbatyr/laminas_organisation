@@ -50,7 +50,7 @@ return [
     ],
 
     'translator' => [
-        'locale' => 'ru_RU',
+        // 'locale' => 'ru_RU',
         'translation_file_patterns' => [
             [
                 'type'     => 'phparray',
