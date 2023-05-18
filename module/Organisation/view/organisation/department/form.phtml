@@ -1,0 +1,141 @@
+<?php
+
+use Laminas\Db\Adapter\Driver\ResultInterface;
+use \Laminas\View\Renderer\PhpRenderer;
+use Organisation\Form\AppointForm;
+use Organisation\Form\DepartmentForm;
+use Organisation\Model\Department;
+use Organisation\Model\Employee;
+
+/**
+ * @var PhpRenderer $this
+ *
+ */
+
+/** @var DepartmentForm $form */
+$form = $this->form;
+
+$form->setAttribute('action', $this->url('departments/save'));
+$form->prepare();
+
+/** @var Department|null $department */
+$department = $this->department;
+
+/** @var array|Employee[] $employees */
+$employees = $this->employees;
+
+/** @var AppointForm $appointForm */
+$appointForm = $this->appointForm;
+?>
+
+<div class="mt-5 row justify-content-center align-items-center">
+    <div class="col-12 col-md-6">
+        <div class="mb-3">
+
+        </div>
+
+        <h3><?= $this->translate('department_form'); ?></h3>
+        <?= $this->form()->openTag($form); ?>
+        <div class="mb-3">
+            <div class="text-danger">
+                <?= $this->formElementErrors($form->get('name')); ?>
+            </div>
+            <?= $this->formText($form->get('name')); ?>
+            <?= $this->formLabel($form->get('name')); ?>
+        </div>
+
+        <div class="mb-3">
+            <?= $this->formHidden($form->get('department')); ?>
+            <?= $this->formHidden($form->get('csrf')); ?>
+            <?php if (!empty($department)) { ?>
+                <input type="hidden" name="department" value="<?=$department->id?>">
+            <?php }?>
+            <div class="text-danger">
+                <?= $this->formElementErrors($form->get('csrf')); ?>
+            </div>
+            <div class="d-flex justify-content-start align-items-center">
+                <?= $this->formSubmit($form->get('save_department')); ?>
+                <a class="btn btn-secondary ms-3" href="<?= $this->url('departments')?>"><?=$this->translate('to_departments_list')?></a>
+            </div>
+        </div>
+
+        <?= $this->form()->closeTag(); ?>
+
+        <hr>
+
+        <?php if (!empty($department)) { ?>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4><?= $this->translate('employees') ?></h4>
+                <button type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#addEmployee">
+                    <?= $this->translate('add_employee'); ?>
+                </button>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+
+                    </thead>
+                    <tbody>
+
+                    <?php foreach ($employees as $employee) { ?>
+                        <tr>
+                            <td class="align-middle"><?= rtrim("{$employee->last_name} {$employee->first_name} {$employee->middle_name}") ?></td>
+                            <td class="align-middle text-nowrap"><?= $employee->birth_date ?></td>
+                            <td class="align-middle"><?= $employee->birth_place ?></td>
+                            <td class="align-middle">
+                                <form action="<?=$this->url('departments/dismiss')?>" method="post">
+                                    <input type="hidden" name="department" value="<?=$department->id?>">
+                                    <input type="hidden" name="employee" value="<?=$employee->id?>">
+                                    <input type="submit" class="btn btn-danger btn-sm" value="<?= $this->translate('delete') ?>">
+                                </form>
+                            </td>
+                        </tr>
+                    <?php } ?>
+
+                    </tbody>
+                </table>
+            </div>
+            <?php if (!empty($appointForm)) {
+                $appointForm->setAttribute('action', $this->url('departments/appoint'));
+                $appointForm->setAttribute('id', 'appoint');
+                $appointForm->prepare(); ?>
+                <div class="modal fade" id="addEmployee" data-bs-backdrop="static" data-bs-keyboard="false"
+                     tabindex="-1"
+                     aria-labelledby="addEmployeeLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title"><?= $this->translate('appoint'); ?></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <?= $this->form()->openTag($appointForm); ?>
+                                <?php foreach ($appointForm->getElements() as $name => $element) {
+                                    if ($element instanceof \Laminas\Form\Element\Checkbox) { ?>
+                                        <div class="form-check mb-3">
+                                            <?= $this->formCheckbox($appointForm->get($name)); ?>
+                                            <?= $this->formLabel($appointForm->get($name)); ?>
+                                        </div>
+                                    <?php } else if ($element instanceof \Laminas\Form\Element\Csrf || $element instanceof \Laminas\Form\Element\Hidden) {
+                                        echo $this->formHidden($appointForm->get($name));
+                                    } else if ($element instanceof \Laminas\Form\Element\Submit) {
+                                        echo $this->formSubmit($appointForm->get($name));
+                                    }
+                                } ?>
+                                <?= $this->form()->closeTag(); ?>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?=$this->translate('close')?></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php }
+        } ?>
+    </div>
+</div>
+
+
+

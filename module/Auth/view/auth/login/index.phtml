@@ -1,0 +1,44 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+
+$form = $this->form;
+$form->setAttribute('action', $this->url('login'));
+$form->prepare();
+?>
+
+<div class="row justify-content-center align-items-center" style="height: 100vh;">
+    <div class="col-12 col-md-8 col-lg-6 col-xl-4" style="max-height: 300px">
+        <div class="card shadow">
+            <div class="card-body">
+
+                <?= $this->form()->openTag($form); ?>
+                <div class="mb-3">
+                    <div class="text-danger">
+                        <?=$this->formElementErrors($form->get('login')); ?>
+                    </div>
+                    <?= $this->formText($form->get('login')); ?>
+                    <?= $this->formLabel($form->get('login')); ?>
+                </div>
+
+                <div class="mb-3">
+                    <div class="text-danger">
+                        <?=$this->formElementErrors($form->get('password')); ?>
+                    </div>
+                    <?= $this->formPassword($form->get('password')); ?>
+                    <?= $this->formLabel($form->get('password')); ?>
+                </div>
+
+                <div class="mb-3">
+                    <?= $this->formHidden($form->get('csrf')); ?>
+                    <div class="text-danger">
+                        <?= $this->formElementErrors($form->get('csrf')); ?>
+                    </div>
+
+                    <?= $this->formSubmit($form->get('submit_login')); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

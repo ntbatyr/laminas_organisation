@@ -1,0 +1,53 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ * @var array|\Organisation\Model\Employee[] $employees
+ */
+
+?>
+<div class="row justify-content-center">
+    <div class="col-12 col-md-6">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2><?= $this->translate('employee_list'); ?></h2>
+            <a class="btn btn-outline-primary btn-sm" href="/employees/form">
+                <?=$this->translate('add_employee')?>
+            </a>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th class="align-middle"><?= $this->translate('id'); ?></th>
+                    <th class="align-middle"><?= $this->translate('full_name'); ?></th>
+                    <th class="align-middle"><?= $this->translate('birth_date'); ?></th>
+                    <th class="align-middle"><?= $this->translate('birth_place'); ?></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                foreach ($employees as $employee) { ?>
+                    <tr>
+                        <td class="align-middle"><?= $employee->id; ?></td>
+                        <td class="align-middle"><?= $employee->getFullName(); ?></td>
+                        <td class="align-middle text-nowrap"><?= $employee->birth_date; ?></td>
+                        <td class="align-middle"><?= $employee->birth_place; ?></td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-start">
+                                <a class="btn btn-warning btn-sm" href="/departments/form/<?=$employee->id; ?>">
+                                    <?= $this->translate('edit'); ?>
+                                </a>
+                                <form action="<?=$this->url('employees/remove')?>" method="post">
+                                    <input type="hidden" name="employee" value="<?=$employee->id?>">
+                                    <input type="submit" class="btn btn-danger btn-sm ms-2" value="<?=$this->translate('delete')?>">
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                <?php }?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
